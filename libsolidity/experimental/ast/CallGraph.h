@@ -31,10 +31,17 @@ namespace solidity::frontend::experimental
 
 struct CallGraph
 {
+	struct CompareByID
+	{
+		using is_transparent = void;
+		bool operator()(FunctionDefinition const* _lhs, FunctionDefinition const* _rhs) const;
+		bool operator()(FunctionDefinition const* _lhs, int64_t _rhs) const;
+		bool operator()(int64_t _lhs, FunctionDefinition const* _rhs) const;
+	};
 	/// Graph edges. Edges are directed and lead from the caller to the callee.
 	/// The map contains a key for every possible caller, even if does not actually perform
 	/// any calls.
-	std::map<FunctionDefinition const*, std::set<FunctionDefinition const*>> edges;
+	std::map<FunctionDefinition const*, std::set<FunctionDefinition const*, CompareByID>, CompareByID> edges;
 };
 
 std::ostream& operator<<(std::ostream& _out, CallGraph const& _callGraph);

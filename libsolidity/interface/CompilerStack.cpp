@@ -57,6 +57,7 @@
 #include <libsolidity/parsing/Parser.h>
 
 #include <libsolidity/experimental/analysis/Analysis.h>
+#include <libsolidity/experimental/analysis/FunctionCallGraph.h>
 #include <libsolidity/experimental/codegen/IRGenerator.h>
 
 #include <libsolidity/codegen/ir/Common.h>
@@ -1945,4 +1946,10 @@ Json::Value CompilerStack::gasEstimates(std::string const& _contractName) const
 	}
 
 	return output;
+}
+
+experimental::Analysis const& CompilerStack::experimentalAnalysis() const
+{
+	solAssert(!!m_experimentalAnalysis);
+	return *m_experimentalAnalysis;
 }

@@ -31,8 +31,6 @@ FunctionCallGraph::FunctionCallGraph(Analysis& _analysis):
 bool FunctionCallGraph::analyze(SourceUnit const& _sourceUnit)
 {
 	_sourceUnit.accept(*this);
-	// TODO remove debug output before merge
-	//std::cout << annotation().functionCallGraph << std::endl;
 	return !m_errorReporter.hasErrors();
 }
 
@@ -47,7 +45,7 @@ void FunctionCallGraph::endVisit(FunctionDefinition const&)
 {
 	// If we're done visiting a function declaration without said function referencing/calling
 	// another function in its body - insert it into the graph without child nodes.
-	annotation().functionCallGraph.edges.try_emplace(m_currentFunction, std::set<FunctionDefinition const*>{});
+	annotation().functionCallGraph.edges.try_emplace(m_currentFunction, std::set<FunctionDefinition const*, CallGraph::CompareByID>{});
 	m_currentFunction = nullptr;
 }
 

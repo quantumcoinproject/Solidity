@@ -20,20 +20,20 @@
 
 using namespace solidity::frontend::experimental;
 
-// TODO remove before merge (delete entire file)
-std::ostream& solidity::frontend::experimental::operator<<(std::ostream& _out, CallGraph const& _callGraph)
+bool CallGraph::CompareByID::operator()(FunctionDefinition const* _lhs, FunctionDefinition const* _rhs) const
 {
-	_out << "EDGES" << "\n";
-	_out << "===================" << std::endl;
-	for (auto [top, subs]: _callGraph.edges)
-	{
-		std::string topName = top->name().empty() ? "fallback" : top->name();
-		_out << "(" << topName <<") --> {";
-		for (auto sub: subs)
-		{
-			_out << sub->name() << ",";
-		}
-		_out << "}" << std::endl;
-	}
-	return _out;
+	solAssert(_lhs && _rhs);
+	return _lhs->id() < _rhs->id();
+}
+
+bool CallGraph::CompareByID::operator()(FunctionDefinition const* _lhs, int64_t _rhs) const
+{
+	solAssert(_lhs);
+	return _lhs->id() < _rhs;
+}
+
+bool CallGraph::CompareByID::operator()(int64_t _lhs, FunctionDefinition const* _rhs) const
+{
+	solAssert(_rhs);
+	return _lhs < _rhs->id();
 }
