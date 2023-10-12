@@ -4,6 +4,7 @@ Language Features:
 
 
 Compiler Features:
+ * Commandline Interface: Add ``--asm-json`` output in assembler mode.
 
 
 Bugfixes:
