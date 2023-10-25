@@ -1,5 +1,9 @@
 ### 0.8.23 (unreleased)
 
+Important Bugfixes:
+ * Optimizer: Fix block deduplicator bug which allowed that blocks which are identical but have different ``verbatim`` contents be treated as equivalent and thus collapsed into a single one. Only assembling of Yul code was affected.
+
+
 Language Features:
 
 
