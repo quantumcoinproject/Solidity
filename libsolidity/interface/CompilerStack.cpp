@@ -1147,6 +1147,11 @@ SourceUnit const& CompilerStack::ast(std::string const& _sourceName) const
 	if (!source(_sourceName).ast)
 		solThrow(CompilerError, "Parsing was not successful.");
 
+	solAssert(
+		!m_sourceOrder.empty() && !m_sourceOrder.front()->ast->experimentalSolidity(),
+		"Experimental solidity does not support ast json output yet."
+	);
+
 	return *source(_sourceName).ast;
 }
 
