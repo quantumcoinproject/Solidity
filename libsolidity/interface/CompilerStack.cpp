@@ -1020,6 +1020,10 @@ Json::Value const& CompilerStack::contractABI(Contract const& _contract) const
 		solThrow(CompilerError, "Analysis was not successful.");
 
 	solAssert(_contract.contract, "");
+	solAssert(
+		!m_sourceOrder.empty() && !m_sourceOrder.front()->ast->experimentalSolidity(),
+		"Experimental solidity does not support abi yet."
+	);
 
 	return _contract.abi.init([&]{ return ABI::generate(*_contract.contract); });
 }
