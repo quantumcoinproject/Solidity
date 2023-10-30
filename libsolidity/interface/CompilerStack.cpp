@@ -1060,6 +1060,10 @@ Json::Value const& CompilerStack::natspecUser(Contract const& _contract) const
 		solThrow(CompilerError, "Analysis was not successful.");
 
 	solAssert(_contract.contract, "");
+	solAssert(
+		!m_sourceOrder.empty() && !m_sourceOrder.front()->ast->experimentalSolidity(),
+		"Experimental solidity does not support userdoc yet."
+	);
 
 	return _contract.userDocumentation.init([&]{ return Natspec::userDocumentation(*_contract.contract); });
 }
@@ -1078,6 +1082,11 @@ Json::Value const& CompilerStack::natspecDev(Contract const& _contract) const
 		solThrow(CompilerError, "Analysis was not successful.");
 
 	solAssert(_contract.contract, "");
+
+	solAssert(
+		!m_sourceOrder.empty() && !m_sourceOrder.front()->ast->experimentalSolidity(),
+		"Experimental solidity does not support devdoc yet."
+	);
 
 	return _contract.devDocumentation.init([&]{ return Natspec::devDocumentation(*_contract.contract); });
 }
