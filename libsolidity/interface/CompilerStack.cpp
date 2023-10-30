@@ -85,6 +85,7 @@
 
 #include <boost/algorithm/string/replace.hpp>
 
+#include <range/v3/algorithm/any_of.hpp>
 #include <range/v3/view/concat.hpp>
 #include <range/v3/view/map.hpp>
 
@@ -451,7 +452,7 @@ bool CompilerStack::analyze()
 
 	try
 	{
-		bool experimentalSolidity = !m_sourceOrder.empty() && m_sourceOrder.front()->ast->experimentalSolidity();
+		bool experimentalSolidity = isAnySourceExperimentalSolidity();
 
 		SyntaxChecker syntaxChecker(m_errorReporter, m_optimiserSettings.runYulOptimiser);
 		for (Source const* source: m_sourceOrder)
@@ -1021,7 +1022,7 @@ Json::Value const& CompilerStack::contractABI(Contract const& _contract) const
 
 	solAssert(_contract.contract, "");
 	solAssert(
-		!m_sourceOrder.empty() && !m_sourceOrder.front()->ast->experimentalSolidity(),
+		!isAnySourceExperimentalSolidity(),
 		"Experimental solidity does not support abi yet."
 	);
 
@@ -1061,7 +1062,7 @@ Json::Value const& CompilerStack::natspecUser(Contract const& _contract) const
 
 	solAssert(_contract.contract, "");
 	solAssert(
-		!m_sourceOrder.empty() && !m_sourceOrder.front()->ast->experimentalSolidity(),
+		!isAnySourceExperimentalSolidity(),
 		"Experimental solidity does not support userdoc yet."
 	);
 
@@ -1084,7 +1085,7 @@ Json::Value const& CompilerStack::natspecDev(Contract const& _contract) const
 	solAssert(_contract.contract, "");
 
 	solAssert(
-		!m_sourceOrder.empty() && !m_sourceOrder.front()->ast->experimentalSolidity(),
+		!isAnySourceExperimentalSolidity(),
 		"Experimental solidity does not support devdoc yet."
 	);
 
@@ -1157,7 +1158,7 @@ SourceUnit const& CompilerStack::ast(std::string const& _sourceName) const
 		solThrow(CompilerError, "Parsing was not successful.");
 
 	solAssert(
-		!m_sourceOrder.empty() && !m_sourceOrder.front()->ast->experimentalSolidity(),
+		!isAnySourceExperimentalSolidity(),
 		"Experimental solidity does not support ast json output yet."
 	);
 
@@ -1938,4 +1939,14 @@ Json::Value CompilerStack::gasEstimates(std::string const& _contractName) const
 	}
 
 	return output;
+}
+
+bool CompilerStack::isAnySourceExperimentalSolidity() const
+{
+	return
+		!m_sourceOrder.empty() &&
+		// TODO: Does it make sense to check for any source or just the front?
+		//m_sourceOrder.front()->ast->experimentalSolidity()
+		ranges::any_of(m_sourceOrder, [](auto const* _source) { return _source->ast->experimentalSolidity(); } )
+	;
 }
