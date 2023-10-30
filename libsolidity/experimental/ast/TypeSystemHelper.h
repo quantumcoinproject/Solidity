@@ -54,7 +54,7 @@ struct TypeEnvironmentHelpers
 	TypeEnvironment const& env;
 	std::string typeToString(Type const& _type) const;
 	std::string canonicalTypeName(Type _type) const;
-	std::vector<Type> typeVars(Type _type) const;
+	std::vector<TypeVariable> typeVars(Type const& _type) const;
 };
 
 }

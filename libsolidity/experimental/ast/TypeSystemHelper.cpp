@@ -268,11 +268,11 @@ bool TypeSystemHelpers::isTypeFunctionType(Type _type) const
 	return isPrimitiveType(_type, PrimitiveType::TypeFunction);
 }
 
-std::vector<experimental::Type> TypeEnvironmentHelpers::typeVars(Type _type) const
+std::vector<TypeVariable> TypeEnvironmentHelpers::typeVars(Type const& _type) const
 {
 	std::set<size_t> indices;
-	std::vector<Type> typeVars;
-	auto typeVarsImpl = [&](Type _type, auto _recurse) -> void {
+	std::vector<TypeVariable> typeVars;
+	auto typeVarsImpl = [&](Type const& _type, auto _recurse) -> void {
 		std::visit(util::GenericVisitor{
 			[&](TypeConstant const& _type) {
 				for (auto arg: _type.arguments)
