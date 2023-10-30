@@ -164,14 +164,32 @@ void YulStack::optimize(Object& _object, bool _isCreation)
 	if (EVMDialect const* evmDialect = dynamic_cast<EVMDialect const*>(&dialect))
 		meter = std::make_unique<GasMeter>(*evmDialect, _isCreation, m_optimiserSettings.expectedExecutionsPerDeployment);
 
+	auto [optimizeStackAllocation, yulOptimiserSteps, yulOptimiserCleanupSteps] = [&]() -> std::tuple<bool, std::string, std::string>
+	{
+		if (!m_optimiserSettings.runYulOptimiser)
+		{
+			// Yul optimizer disabled, but empty sequence (:) explicitly provided
+			if (m_optimiserSettings.yulOptimiserSteps.empty() && m_optimiserSettings.yulOptimiserCleanupSteps.empty())
+				return std::make_tuple(true, "", "");
+			// Yul optimizer disabled, and no sequence explicitly provided (assumes default sequence)
+			else
+				return std::make_tuple(true, "u", "");
+		}
+		return std::make_tuple(
+			m_optimiserSettings.optimizeStackAllocation,
+			m_optimiserSettings.yulOptimiserSteps,
+			m_optimiserSettings.yulOptimiserCleanupSteps
+		);
+	}();
+
 	OptimiserSuite::run(
 		dialect,
 		meter.get(),
 		_object,
 		// Defaults are the minimum necessary to avoid running into "Stack too deep" constantly.
-		m_optimiserSettings.runYulOptimiser ? m_optimiserSettings.optimizeStackAllocation : true,
-		m_optimiserSettings.runYulOptimiser ? m_optimiserSettings.yulOptimiserSteps : "u",
-		m_optimiserSettings.runYulOptimiser ? m_optimiserSettings.yulOptimiserCleanupSteps : "",
+		optimizeStackAllocation,
+		yulOptimiserSteps,
+		yulOptimiserCleanupSteps,
 		_isCreation ? std::nullopt : std::make_optional(m_optimiserSettings.expectedExecutionsPerDeployment),
 		{}
 	);

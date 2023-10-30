@@ -1228,8 +1228,8 @@ void CommandLineParser::processArgs()
 	if (m_args.count(g_strYulOptimizations))
 	{
 		OptimiserSettings optimiserSettings = m_options.optimiserSettings();
-		if (!optimiserSettings.runYulOptimiser)
-			solThrow(CommandLineValidationError, "--" + g_strYulOptimizations + " is invalid if Yul optimizer is disabled");
+		if (!optimiserSettings.runYulOptimiser && m_args[g_strYulOptimizations].as<std::string>() != ":")
+			solThrow(CommandLineValidationError, "--" + g_strYulOptimizations + " is invalid with any sequence other than empty (:) if Yul optimizer is disabled.");
 
 		try
 		{

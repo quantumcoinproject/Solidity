@@ -605,7 +605,18 @@ std::variant<OptimiserSettings, Json::Value> parseOptimizerSettings(Json::Value 
 		if (details.isMember("yulDetails"))
 		{
 			if (!settings.runYulOptimiser)
+			{
+				auto const& yulDetails = details["yulDetails"];
+				if (yulDetails.isObject() && yulDetails.isMember("optimizerSteps"))
+				{
+					auto error = checkOptimizerDetailSteps(details["yulDetails"], "optimizerSteps", settings.yulOptimiserSteps, settings.yulOptimiserCleanupSteps);
+					if (!error && settings.yulOptimiserSteps.empty() && settings.yulOptimiserCleanupSteps.empty())
+						return { std::move(settings) };
+					else
+						return formatFatalError(Error::Type::JSONError, "\"If Yul optimizer is disabled, only an empty optimizerSteps sequence (\":\") is accepted.\"");
+				}
 				return formatFatalError(Error::Type::JSONError, "\"Providing yulDetails requires Yul optimizer to be enabled.");
+			}
 
 			if (auto result = checkKeys(details["yulDetails"], {"stackAllocation", "optimizerSteps"}, "settings.optimizer.details.yulDetails"))
 				return *result;
