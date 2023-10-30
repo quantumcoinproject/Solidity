@@ -1043,6 +1043,10 @@ Json::Value const& CompilerStack::storageLayout(Contract const& _contract) const
 		solThrow(CompilerError, "Analysis was not successful.");
 
 	solAssert(_contract.contract, "");
+	solAssert(
+		!isAnySourceExperimentalSolidity(),
+		"Experimental solidity does not support storage layout yet."
+	);
 
 	return _contract.storageLayout.init([&]{ return StorageLayout().generate(*_contract.contract); });
 }
