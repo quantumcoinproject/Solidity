@@ -298,6 +298,8 @@ std::variant<TypeClass, std::string> TypeSystem::declareTypeClass(std::string _n
 	TypeVariable const* typeVariable = std::get_if<TypeVariable>(&maybeTypeVariable);
 	solAssert(typeVariable);
 
+	m_globalTypeEnvironment.fixTypeVars({*typeVariable});
+
 	m_typeClasses.emplace_back(TypeClassInfo{
 		*typeVariable,
 		_name,
