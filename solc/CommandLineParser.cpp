@@ -1228,7 +1228,7 @@ void CommandLineParser::processArgs()
 	if (m_args.count(g_strYulOptimizations))
 	{
 		OptimiserSettings optimiserSettings = m_options.optimiserSettings();
-		if (!optimiserSettings.runYulOptimiser && m_args[g_strYulOptimizations].as<std::string>() != ":")
+		if (!optimiserSettings.runYulOptimiser && !isEmptyOptimizerSequence(m_args[g_strYulOptimizations].as<std::string>()))
 			solThrow(CommandLineValidationError, "--" + g_strYulOptimizations + " is invalid with any sequence other than empty (:) if Yul optimizer is disabled.");
 
 		try
@@ -1483,6 +1483,24 @@ size_t CommandLineParser::countEnabledOptions(std::vector<std::string> const& _o
 		count += m_args.count(_option);
 
 	return count;
+}
+
+bool CommandLineParser::isEmptyOptimizerSequence(std::string const& _sequence) const
+{
+	size_t delimiterCount{0};
+	for (char const step: _sequence)
+		switch (step)
+		{
+		case ':':
+			++delimiterCount;
+			break;
+		case ' ':
+		case '\n':
+			break;
+		default:
+			return false;
+		}
+	return delimiterCount == 1;
 }
 
 std::string CommandLineParser::joinOptionNames(std::vector<std::string> const& _optionNames, std::string _separator)

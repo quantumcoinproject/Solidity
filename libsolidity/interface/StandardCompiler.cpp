@@ -610,7 +610,16 @@ std::variant<OptimiserSettings, Json::Value> parseOptimizerSettings(Json::Value 
 				if (yulDetails.isObject() && yulDetails.isMember("optimizerSteps"))
 				{
 					auto error = checkOptimizerDetailSteps(details["yulDetails"], "optimizerSteps", settings.yulOptimiserSteps, settings.yulOptimiserCleanupSteps);
-					if (!error && settings.yulOptimiserSteps.empty() && settings.yulOptimiserCleanupSteps.empty())
+					auto isWhiteSpaceOrNewlineOnly = [](std::string const& _sequence) {
+						return !std::any_of(_sequence.begin(), _sequence.end(), [](char const step){
+							return step != ' ' && step != '\n';
+						});
+					};
+					if (
+						!error &&
+						isWhiteSpaceOrNewlineOnly(settings.yulOptimiserSteps) &&
+						isWhiteSpaceOrNewlineOnly(settings.yulOptimiserCleanupSteps)
+					)
 						return { std::move(settings) };
 					else
 						return formatFatalError(Error::Type::JSONError, "\"If Yul optimizer is disabled, only an empty optimizerSteps sequence (\":\") is accepted.\"");

@@ -287,6 +287,7 @@ private:
 
 	void checkMutuallyExclusive(std::vector<std::string> const& _optionNames);
 	size_t countEnabledOptions(std::vector<std::string> const& _optionNames) const;
+	bool isEmptyOptimizerSequence(std::string const& _sequence) const;
 	static std::string joinOptionNames(std::vector<std::string> const& _optionNames, std::string _separator = ", ");
 
 	CommandLineOptions m_options;
