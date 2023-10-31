@@ -1101,6 +1101,11 @@ Json::Value CompilerStack::interfaceSymbols(std::string const& _contractName) co
 	if (m_stackState < AnalysisSuccessful)
 		solThrow(CompilerError, "Analysis was not successful.");
 
+	solAssert(
+		!isAnySourceExperimentalSolidity(),
+		"Experimental solidity does not support interface symbols yet."
+	);
+
 	Json::Value interfaceSymbols(Json::objectValue);
 	// Always have a methods object
 	interfaceSymbols["methods"] = Json::objectValue;
