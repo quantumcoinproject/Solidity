@@ -32,7 +32,7 @@ for a stand-alone Yul mode.
 
 .. note::
     An empty optimizer sequence is accepted even without ``--optimize`` in order to fully disable
-    the user supplied portion of the Yul :ref:`optimizer sequence <selecting-optimizations>`, as by default,
+    the user-supplied portion of the Yul :ref:`optimizer sequence <selecting-optimizations>`, as by default,
     even when the optimizer is not turned on, the :ref:`unused pruner <unused-pruner>` step will be run.
 
 You can find more details on both optimizer modules and their optimization steps below.

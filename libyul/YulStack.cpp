@@ -34,12 +34,14 @@
 #include <libyul/optimiser/Suite.h>
 #include <libevmasm/Assembly.h>
 #include <liblangutil/Scanner.h>
+#include <libsolidity/interface/OptimiserSettings.h>
 
 #include <boost/algorithm/string.hpp>
 
 #include <optional>
 
 using namespace solidity;
+using namespace solidity::frontend;
 using namespace solidity::yul;
 using namespace solidity::langutil;
 
@@ -169,11 +171,18 @@ void YulStack::optimize(Object& _object, bool _isCreation)
 		if (!m_optimiserSettings.runYulOptimiser)
 		{
 			// Yul optimizer disabled, but empty sequence (:) explicitly provided
-			if (m_optimiserSettings.yulOptimiserSteps.empty() && m_optimiserSettings.yulOptimiserCleanupSteps.empty())
+			if (OptimiserSuite::isEmptyOptimizerSequence(m_optimiserSettings.yulOptimiserSteps + ":" + m_optimiserSettings.yulOptimiserCleanupSteps))
 				return std::make_tuple(true, "", "");
 			// Yul optimizer disabled, and no sequence explicitly provided (assumes default sequence)
 			else
+			{
+				yulAssert(
+					m_optimiserSettings.yulOptimiserSteps == OptimiserSettings::DefaultYulOptimiserSteps &&
+					m_optimiserSettings.yulOptimiserCleanupSteps == OptimiserSettings::DefaultYulOptimiserCleanupSteps
+				);
 				return std::make_tuple(true, "u", "");
+			}
+
 		}
 		return std::make_tuple(
 			m_optimiserSettings.optimizeStackAllocation,

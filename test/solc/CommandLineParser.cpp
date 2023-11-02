@@ -602,7 +602,7 @@ BOOST_AUTO_TEST_CASE(valid_empty_optimizer_sequences_without_optimize)
 BOOST_AUTO_TEST_CASE(invalid_optimizer_sequence_without_optimize)
 {
 	string const invalidSequence{"u: "};
-	string const expectedErrorMessage{"--yul-optimizations is invalid with any sequence other than empty (:) if Yul optimizer is disabled."};
+	string const expectedErrorMessage{"--yul-optimizations is invalid with a non-empty sequence if Yul optimizer is disabled."};
 	vector<string> commandLineOptions{"solc", "contract.sol", "--yul-optimizations=" + invalidSequence};
 	auto hasCorrectMessage = [&](CommandLineValidationError const& _exception) { return _exception.what() == expectedErrorMessage; };
 	BOOST_CHECK_EXCEPTION(parseCommandLine(commandLineOptions), CommandLineValidationError, hasCorrectMessage);
