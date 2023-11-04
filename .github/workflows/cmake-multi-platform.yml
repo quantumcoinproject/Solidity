@@ -58,8 +58,6 @@ jobs:
           boost_install_dir: C:\boost
           # OPTIONAL: Specify a platform version
           platform_version: 2019
-          # OPTIONAL: Specify a toolset
-          toolset: msvc
     
           # NOTE: If a boost version matching all requirements cannot be found,
           # this build step will fail
