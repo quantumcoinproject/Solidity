@@ -58,7 +58,6 @@ jobs:
           boost_install_dir: C:\boost
           # OPTIONAL: Specify a platform version
           platform_version: 2019
-          arch: x64
     
           # NOTE: If a boost version matching all requirements cannot be found,
           # this build step will fail
@@ -67,7 +66,7 @@ jobs:
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        cmake -B ${{ steps.strings.outputs.build-output-dir }} -A x86
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
