@@ -4,9 +4,8 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ "076" ]
-  pull_request:
-    branches: [ "076" ]
+    tags:
+    - '*'   
 
 jobs:
   build:
@@ -24,7 +23,7 @@ jobs:
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
         os: [windows-latest]
-        build_type: [Release]
+        build_type: [Debug]
         c_compiler: [gcc, clang, cl]
         include:
           - os: windows-latest
