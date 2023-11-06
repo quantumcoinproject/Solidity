@@ -339,7 +339,7 @@ BOOST_AUTO_TEST_CASE(properties)
 	for (string const& name: names)
 	{
 		m_sender = account(0);
-		sendEther(account(count), u256(20) * ether);
+		sendEther(account(count), u256(32) * ether);
 		m_sender = account(count);
 		auto sender = m_sender;
 		addr += count;
@@ -348,8 +348,8 @@ BOOST_AUTO_TEST_CASE(properties)
 		BOOST_CHECK_EQUAL(registrar.owner(name), sender);
 		registrar.setAddress(name, h32B(addr), true);
 		BOOST_CHECK_EQUAL(registrar.addr(name), h32B(addr));
-		registrar.setSubRegistrar(name, h32B(addr + 20));
-		BOOST_CHECK_EQUAL(registrar.subRegistrar(name), h32B(addr + 20));
+		registrar.setSubRegistrar(name, h32B(addr + 32));
+		BOOST_CHECK_EQUAL(registrar.subRegistrar(name), h32B(addr + 32));
 		registrar.setContent(name, h256(u256(addr + 90)));
 		BOOST_CHECK_EQUAL(registrar.content(name), h256(u256(addr + 90)));
 
@@ -358,8 +358,8 @@ BOOST_AUTO_TEST_CASE(properties)
 		BOOST_CHECK_EQUAL(registrar.owner(name), sender);
 		registrar.setAddress(name, h32B(addr + 1), true);
 		BOOST_CHECK_EQUAL(registrar.addr(name), h32B(addr));
-		registrar.setSubRegistrar(name, h32B(addr + 20 + 1));
-		BOOST_CHECK_EQUAL(registrar.subRegistrar(name), h32B(addr + 20));
+		registrar.setSubRegistrar(name, h32B(addr + 32 + 1));
+		BOOST_CHECK_EQUAL(registrar.subRegistrar(name), h32B(addr + 32));
 		registrar.setContent(name, h256(u256(addr + 90 + 1)));
 		BOOST_CHECK_EQUAL(registrar.content(name), h256(u256(addr + 90)));
 		count++;

@@ -694,8 +694,8 @@ BOOST_AUTO_TEST_CASE(daylimit)
 
 BOOST_AUTO_TEST_CASE(daylimit_constructor)
 {
-	deployWallet(200, {}, 1, 20);
-	BOOST_REQUIRE(callContractFunction("m_dailyLimit()") == encodeArgs(u256(20)));
+	deployWallet(200, {}, 1, 32);
+	BOOST_REQUIRE(callContractFunction("m_dailyLimit()") == encodeArgs(u256(32)));
 	BOOST_REQUIRE(callContractFunction("setDailyLimit(uint256)", u256(30)) == encodeArgs());
 	BOOST_REQUIRE(callContractFunction("m_dailyLimit()") == encodeArgs(u256(30)));
 }
