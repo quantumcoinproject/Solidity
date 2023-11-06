@@ -706,8 +706,8 @@ bool CommandLineInterface::parseLibraryOption(string const& _input)
 				return false;
 			}
 			bytes binAddr = fromHex(addrString);
-			h160 address(binAddr, h160::AlignRight);
-			if (binAddr.size() > 20 || address == h160())
+			h32B address(binAddr, h32B::AlignRight);
+			if (binAddr.size() > 32 || address == h32B())
 			{
 				serr() << "Invalid address for library \"" << libName << "\": " << addrString << endl;
 				return false;
@@ -1766,7 +1766,7 @@ bool CommandLineInterface::actOnInput()
 bool CommandLineInterface::link()
 {
 	// Map from how the libraries will be named inside the bytecode to their addresses.
-	map<string, h160> librariesReplacements;
+	map<string, h32B> librariesReplacements;
 	int const placeholderSize = 40; // 20 bytes or 40 hex characters
 	for (auto const& library: m_libraries)
 	{
