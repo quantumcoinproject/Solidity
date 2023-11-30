@@ -180,44 +180,7 @@ h256 keccak256(bytesConstRef _input)
 	// The 0x01 is the specific padding for keccak (sha3 uses 0x06) and
 	// the way the round size (or window or whatever it was) is calculated.
 	// 200 - (256 / 4) is the "rate"
-
-	printf("msg=\n");
-	for (unsigned int i = 0; i < _input.size(); i++)
-	{
-		printf("%d,", _input[i]);
-	}
-
-	const int PRE_ROUND_HASH_SIZE = 64;
-	uint8_t roundhash[PRE_ROUND_HASH_SIZE] = {0};
-	uint8_t* roundmsg = (uint8_t*) malloc((_input.size() + PRE_ROUND_HASH_SIZE) * sizeof(uint8_t));
-
-	//Round 1
-	hash(roundhash, PRE_ROUND_HASH_SIZE, _input.data(), _input.size(), 200 - (512 / 4), 0x06);
-
-	//Round 2
-	memcpy(roundmsg, _input.data(), _input.size());
-	for (int i = 0; i < PRE_ROUND_HASH_SIZE; i++)
-	{
-		roundmsg[_input.size() + i] = roundhash[i];
-	}
-	hash(roundhash, PRE_ROUND_HASH_SIZE, roundmsg, _input.size() + PRE_ROUND_HASH_SIZE, 200 - (512 / 4), 0x06);
-
-	//Round 3
-	for (int i = 0; i < PRE_ROUND_HASH_SIZE; i++)
-	{
-		roundmsg[_input.size() + i] = roundhash[i];
-	}
-	hash(output.data(), output.size, roundmsg, _input.size() + PRE_ROUND_HASH_SIZE, 200 - (256 / 4), 0x06);
-
-
-	free(roundmsg);
-
-	printf("hash=\n");
-	for (unsigned int i = 0; i < output.size; i++)
-	{
-		printf("%d,", output.data()[i]);
-	}
-
+	hash(output.data(), output.size, _input.data(), _input.size(), 200 - (256 / 4), 0x06);
 	return output;
 }
 

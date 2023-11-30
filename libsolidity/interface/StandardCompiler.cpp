@@ -850,7 +850,7 @@ std::variant<StandardCompiler::InputsAndSettings, Json::Value> StandardCompiler:
 
 			try
 			{
-				ret.libraries[sourceName + ":" + library] = util::h32B(address);
+				ret.libraries[sourceName + ":" + library] = util::h160(address);
 			}
 			catch (util::BadHexCharacter const&)
 			{

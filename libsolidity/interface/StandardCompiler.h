@@ -67,7 +67,7 @@ private:
 		std::vector<CompilerStack::Remapping> remappings;
 		RevertStrings revertStrings = RevertStrings::Default;
 		OptimiserSettings optimiserSettings = OptimiserSettings::minimal();
-		std::map<std::string, util::h32B> libraries;
+		std::map<std::string, util::h160> libraries;
 		bool metadataLiteralSources = false;
 		CompilerStack::MetadataHash metadataHash = CompilerStack::MetadataHash::IPFS;
 		Json::Value outputSelection;
