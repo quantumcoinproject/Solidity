@@ -180,7 +180,7 @@ h256 keccak256(bytesConstRef _input)
 	// The 0x01 is the specific padding for keccak (sha3 uses 0x06) and
 	// the way the round size (or window or whatever it was) is calculated.
 	// 200 - (256 / 4) is the "rate"
-	hash(output.data(), output.size, _input.data(), _input.size(), 200 - (256 / 4), 0x06);
+	hash(output.data(), output.size, _input.data(), _input.size(), 200 - (256 / 4), 0x01);
 	return output;
 }
 
