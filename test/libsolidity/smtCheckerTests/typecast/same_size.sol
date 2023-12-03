@@ -19,7 +19,7 @@ contract C {
 		assert(v == -(2**255) + 10);
 		int256 a = int256(address(-1));
 		assert(a == -1);
-		int256 b = int256(address(2**159 + 10));
+		int256 b = int256(address(2**255 + 10));
 		assert(b == -(2**159) + 10);
 		D d;
 		int256 e = int256(address(d));

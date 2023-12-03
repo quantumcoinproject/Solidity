@@ -694,9 +694,9 @@ bool CommandLineInterface::parseLibraryOption(string const& _input)
 				serr() << "Note that there should not be any whitespace after the colon." << endl;
 				return false;
 			}
-			else if (addrString.length() != 40)
+			else if (addrString.length() != 64)
 			{
-				serr() << "Invalid length for address for library \"" << libName << "\": " << addrString.length() << " instead of 40 characters." << endl;
+				serr() << "Invalid length for address for library \"" << libName << "\": " << addrString.length() << " instead of 64 characters." << endl;
 				return false;
 			}
 			if (!passesAddressChecksum(addrString, false))
@@ -1767,11 +1767,11 @@ bool CommandLineInterface::link()
 {
 	// Map from how the libraries will be named inside the bytecode to their addresses.
 	map<string, h32B> librariesReplacements;
-	int const placeholderSize = 40; // 20 bytes or 40 hex characters
+	int const placeholderSize = 64; // 32 bytes or 64 hex characters
 	for (auto const& library: m_libraries)
 	{
 		string const& name = library.first;
-		// Library placeholders are 40 hex digits (20 bytes) that start and end with '__'.
+		// Library placeholders are 64 hex digits (32 bytes) that start and end with '__'.
 		// This leaves 36 characters for the library identifier. The identifier used to
 		// be just the cropped or '_'-padded library name, but this changed to
 		// the cropped hex representation of the hash of the library name.

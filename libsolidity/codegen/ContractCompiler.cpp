@@ -233,9 +233,9 @@ size_t ContractCompiler::deployLibrary(ContractDefinition const& _contract)
 		let codepos := 11
 		codecopy(codepos, subOffset, subSize)
 		// Check that the first opcode is a PUSH32
-		if iszero(eq(0x1f, byte(0, mload(codepos)))) { invalid() }
+		if iszero(eq(0x7f, byte(0, mload(codepos)))) { invalid() }
 		mstore(0, address())
-		mstore8(codepos, 0x1f)
+		mstore8(codepos, 0x7f)
 		return(codepos, subSize)
 	}
 	)", {"subSize", "subOffset"});
@@ -297,7 +297,7 @@ void ContractCompiler::appendConstructor(FunctionDefinition const& _constructor)
 void ContractCompiler::appendDelegatecallCheck()
 {
 	// Special constant that will be replaced by the address at deploy time.
-	// At compilation time, this is just "PUSH20 00...000".
+	// At compilation time, this is just "PUSH32 00...000".
 	m_context.appendDeployTimeAddress();
 	m_context << Instruction::ADDRESS << Instruction::EQ;
 	// The result on the stack is

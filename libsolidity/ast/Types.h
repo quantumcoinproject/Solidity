@@ -417,7 +417,7 @@ public:
 
 	bool operator==(Type const& _other) const override;
 
-	unsigned calldataEncodedSize(bool _padded = true) const override { return 32; }
+	unsigned calldataEncodedSize(bool _padded = true) const override { return _padded ? 32 : 256 / 8; }
 	unsigned storageBytes() const override { return 256 / 8; }
 	bool leftAligned() const override { return false; }
 	bool isValueType() const override { return true; }

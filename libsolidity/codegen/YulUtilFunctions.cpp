@@ -171,7 +171,7 @@ string YulUtilFunctions::leftAlignFunction(Type const& _type)
 		switch (_type.category())
 		{
 		case Type::Category::Address:
-			templ("body", "aligned := " + leftAlignFunction(IntegerType(160)) + "(value)");
+			templ("body", "aligned := " + leftAlignFunction(IntegerType(256)) + "(value)");
 			break;
 		case Type::Category::Integer:
 		{
@@ -3044,7 +3044,7 @@ string YulUtilFunctions::conversionFunction(Type const& _from, Type const& _to)
 			else if (toCategory == Type::Category::Address)
 				body =
 					Whiskers("converted := <convert>(value)")
-						("convert", conversionFunction(_from, IntegerType(160)))
+						("convert", conversionFunction(_from, IntegerType(256)))
 						.render();
 			else
 			{
