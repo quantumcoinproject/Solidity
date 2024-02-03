@@ -1,3 +1,5 @@
+name: Ubuntu Release
+
 on:
   push:
     tags:
