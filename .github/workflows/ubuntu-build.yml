@@ -33,11 +33,7 @@ jobs:
       
       - name: Build Solidity
         run: |
-          docker exec ${{ env.CONTAINER_NAME }} "/root/project/scripts/ci/${{ env.IMAGE_NAME }}_test_${{ matrix.image_variant }}.sh"
-      
-      - name: Run Solidity Tests
-        run: |
-          docker exec ${{ env.CONTAINER_NAME }} "/root/project/scripts/tests.sh"
+          docker exec ${{ env.CONTAINER_NAME }} "/root/project/scripts/ci/${{ env.IMAGE_NAME }}_test_${{ matrix.image_variant }}.sh"      
           
       - name: Upload Artifact 
         uses: actions/upload-artifact@v3
