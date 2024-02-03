@@ -35,9 +35,7 @@ RUN set -ex; \
 		build-essential \
 		software-properties-common \
 		cmake ninja-build \
-		libboost-filesystem-dev libboost-test-dev libboost-system-dev \
-		libboost-program-options-dev \
-		libcvc4-dev libz3-static-dev \
+		libcvc4-5 libcvc4-dev libz3-dev \
 		; \
 	apt-get install -qy python3-pip python3-sphinx; \
 	pip3 install codecov; \
@@ -69,8 +67,42 @@ RUN set -ex; \
 	ninja install/strip; \
 	rm -rf /usr/src/hera
 
+# Z3
+RUN set -ex; \
+    git clone --depth 1 -b z3-4.8.9 https://github.com/Z3Prover/z3.git \
+    /usr/src/z3; \
+    cd /usr/src/z3; \
+    mkdir build; \
+    cd build; \
+    LDFLAGS=$CXXFLAGS cmake -DZ3_BUILD_LIBZ3_SHARED=OFF -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release ..; \
+    make libz3 -j; \
+    make install; \
+    rm -rf /usr/src/z3
+
+# Boost
+ARG BOOST_VER=1.76.0
+ARG BOOST_VERSION=1_76_0
+
+# Download and unpack Boost
+RUN wget https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VER}/source/boost_${BOOST_VERSION}.tar.bz2 && \
+    tar -xjf boost_${BOOST_VERSION}.tar.bz2 && \
+    rm boost_${BOOST_VERSION}.tar.bz2
+
+# Build and install Boost
+RUN cd boost_${BOOST_VERSION} && \
+    ./bootstrap.sh && \
+    ./b2 && \
+	./b2 install
+
+# Set the environment variables
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}
+ENV BOOST_LIBRARYDIR=/usr/local/lib
+ENV BOOST_INCLUDEDIR=/usr/local/include
+
 FROM base
 COPY --from=libraries /usr/lib /usr/lib
 COPY --from=libraries /usr/bin /usr/bin
 COPY --from=libraries /usr/include /usr/include
-
+COPY --from=libraries /usr/local/lib /usr/local/lib
+COPY --from=libraries /usr/local/include /usr/local/include
