@@ -1,0 +1,53 @@
+name: Ubuntu Release
+
+on:
+  push:
+    tags:
+    - '*'  
+
+jobs:
+  build-only:
+    env:
+      DOCKER_REPOSITORY: solbuildpackpusher/solidity-buildpack-deps
+      CONTAINER_NAME: bd_container
+      IMAGE_NAME: buildpack-deps
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        image_variant: [ubuntu2004]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build ${{ env.IMAGE_NAME }}-${{ matrix.image_variant }}
+        run: |
+          chmod +x scripts/ci/docker_build.sh
+          scripts/ci/docker_build.sh ${{ env.IMAGE_NAME }} ${{ matrix.image_variant }} ${{ env.DOCKER_REPOSITORY }} ${{ env.CONTAINER_NAME }}
+
+      - name: Start Docker Container
+        run: |
+          docker run -d --volume "${{ github.workspace }}:/root/project" --name ${{ env.CONTAINER_NAME }} ${{ env.IMAGE_NAME }} tail -f /dev/null
+      
+      - name: Build Solidity
+        run: |
+          docker exec ${{ env.CONTAINER_NAME }} "/root/project/scripts/ci/${{ env.IMAGE_NAME }}_test_${{ matrix.image_variant }}.sh"      
+          
+      - name: Upload Artifact 
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-ubuntu
+          path: ${{ github.workspace }}/build
+
+      - name: Stop Docker
+        run: |
+          docker stop ${{ env.CONTAINER_NAME }}
+          docker rm ${{ env.CONTAINER_NAME }}
+
+      - name: release 
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "build/solc/solc"
