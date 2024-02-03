@@ -6,7 +6,7 @@ on:
     - '*'  
 
 jobs:
-  build-and-test:
+  build-only:
     env:
       DOCKER_REPOSITORY: solbuildpackpusher/solidity-buildpack-deps
       CONTAINER_NAME: bd_container
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         image_variant: [ubuntu2004]
 
