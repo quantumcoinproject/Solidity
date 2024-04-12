@@ -220,7 +220,7 @@ size_t ExecutionFramework::blockTimestamp(u256 _block)
 
 h32B ExecutionFramework::account(size_t _idx)
 {
-	return h32B(h256(u256{"0x1212121212121212121212121212120000000012"} + _idx * 0x1000), h32B::AlignRight);
+	return h32B(h256(u256{"0x1212121212121212121212121212120000000000000000000000000000000012"} + _idx * 0x1000), h32B::AlignRight);
 }
 
 bool ExecutionFramework::addressHasCode(h32B const& _addr)
