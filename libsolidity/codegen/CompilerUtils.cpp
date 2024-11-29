@@ -707,7 +707,7 @@ void CompilerUtils::splitExternalFunctionType(bool _leftAligned)
 	{
 		m_context << Instruction::DUP1;
 		rightShiftNumberOnStack(32);
-		m_context << ((u256(1) << 256) - 1) << Instruction::AND << Instruction::SWAP1;
+		m_context << (u256(0) - 1) << Instruction::AND << Instruction::SWAP1;
 	}
 	m_context << u256(0xffffffffUL) << Instruction::AND;
 }
@@ -717,7 +717,7 @@ void CompilerUtils::combineExternalFunctionType(bool _leftAligned)
 	// <address> <function_id>
 	m_context << u256(0xffffffffUL) << Instruction::AND << Instruction::SWAP1;
 	if (!_leftAligned)
-		m_context << ((u256(1) << 256) - 1) << Instruction::AND;
+		m_context << (u256(0) - 1) << Instruction::AND;
 	leftShiftNumberOnStack(32);
 	m_context << Instruction::OR;
 	if (_leftAligned)
