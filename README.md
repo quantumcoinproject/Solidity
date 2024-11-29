@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **This is an implementation of Solidity with support for 32 byte addresses instead of 20 byte addresses as used in Ethereum**
+
 # The Solidity Contract-Oriented Programming Language
 You can talk to us on [![solidity at https://gitter.im/ethereum/solidity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ethereum/solidity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge). Questions, feedback, and suggestions are welcome!
 
