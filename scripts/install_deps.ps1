@@ -14,6 +14,7 @@ if ( -not (Test-Path "$PSScriptRoot\..\deps\boost") ) {
   tar -xf boost.zip
   cd boost_1_74_0
   .\bootstrap.bat
+  type .\bootstrap.log
   .\b2 -j4 -d0 link=static runtime-link=static variant=release threading=multi address-model=64 --with-filesystem --with-system --with-program_options --with-test --prefix="$PSScriptRoot\..\deps\boost" install
   if ( -not $? ) { throw "Error building boost." }
   cd ..
