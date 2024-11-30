@@ -17,7 +17,6 @@ if ( -not (Test-Path "$PSScriptRoot\..\deps\boost") ) {
   type .\bootstrap.log
   .\b2 -j4 -d0 link=static runtime-link=static variant=release threading=multi address-model=64 --with-filesystem --with-system --with-program_options --with-test --prefix="$PSScriptRoot\..\deps\boost" install
   dir $PSScriptRoot\..\deps\boost\lib\cmake
-  dir ${{ github.workspace }}\build\deps\boost\lib\cmake
   if ( -not $? ) { throw "Error building boost." }
   cd ..
 }
