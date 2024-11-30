@@ -55,5 +55,5 @@ jobs:
       - name: release 
         uses: ncipollo/release-action@v1
         with:
-          allowUpdates: false
+          allowUpdates: true
           artifacts: "solc/release/solc.exe"
