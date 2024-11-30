@@ -38,12 +38,12 @@ jobs:
 
       - name: Build Solidity
         run: |
-          cd ${{ github.workspace }}\build
+          #cd ${{ github.workspace }}\build
           cmake --build . --config Release -j 12
 
       - name: Install Solidity
         run: |
-          cd ${{ github.workspace }}\build
+          #cd ${{ github.workspace }}\build
           cmake --install . 
 
       - name: Upload Artifact 
