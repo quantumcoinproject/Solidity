@@ -1,8 +1,9 @@
+name: Build emscripten
+
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ disabled ]
+
 
 jobs:
   build-and-test:
