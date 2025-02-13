@@ -1,0 +1,32 @@
+name: Build soljson
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  build-soljson:
+    env:
+      DOCKER_REPOSITORY: solbuildpackpusher/solidity-buildpack-deps
+      CONTAINER_NAME: ems
+      IMAGE_NAME: buildpack-deps
+      CIRCLE_BRANCH: release
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Build soljson
+        run: |
+          cd Solidity
+          chmod +x scripts/ci/docker_build.sh
+          cp scripts/docker/buildpack-deps/emscripten.jam ./
+          scripts/ci/docker_build.sh ${{ env.IMAGE_NAME }} emscripten ${{ env.DOCKER_REPOSITORY }} ${{ env.CONTAINER_NAME}}
+          scripts/build_emscripten.sh
+
+      - name: Upload Artifact 
+        uses: actions/upload-artifact@v4
+        with:
+          name: soljson
+          path: upload/soljson.js
