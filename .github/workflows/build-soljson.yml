@@ -1,7 +1,9 @@
 name: Build soljson
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+    - '*'   
   
 jobs:
   build-soljson:
@@ -31,3 +33,9 @@ jobs:
         with:
           name: soljson
           path: upload/soljson.js
+
+      - name: release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "Solidity/*.js,../*.js,upload/*.js"
