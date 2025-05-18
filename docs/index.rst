@@ -1,3 +1,17 @@
+.. warning::
+    This documentation is work in progress. Please review the **About** section below first.
+
+About
+======
+
+This is a version of Solidity that has been updated for the `QuantumCoin blockchain <https://QuantumCoin.org>`_. The major changes from Solidity used in Ethereum are:
+
+1) 32 bytes address scheme as opposed to 20 bytes address in Ethereum.
+
+2) Solidity Compiler version used is 7.6
+
+3) No support for Function Types. Note that Functions are supported.
+
 Solidity
 ========
 
@@ -53,12 +67,6 @@ and “Language Description” sections to understand the core concepts of the l
 
 There are various ways to install the Solidity compiler,
 simply choose your preferred option and follow the steps outlined on the :ref:`installation page <installing-solidity>`.
-
-.. hint::
-  You can try out code examples directly in your browser with the
-  `Remix IDE <https://remix.ethereum.org>`_. Remix is a web browser based IDE
-  that allows you to write, deploy and administer Solidity smart contracts, without
-  the need to install Solidity locally.
 
 .. warning::
     As humans write software, it can have bugs. You should follow established
