@@ -166,7 +166,7 @@ Address
 
 The address type comes in two flavours, which are largely identical:
 
- - ``address``: Holds a 20 byte value (size of an Ethereum address).
+ - ``address``: Holds a 32 byte value (size of an Ethereum address).
  - ``address payable``: Same as ``address``, but with the additional members ``transfer`` and ``send``.
 
 The idea behind this distinction is that ``address payable`` is an address you can send Ether to,
@@ -179,7 +179,7 @@ must be explicit via ``payable(<address>)``.
 
 :ref:`Address literals<address_literals>` can be implicitly converted to ``address payable``.
 
-Explicit conversions to and from ``address`` are allowed for integers, integer literals, ``bytes20`` and contract types with the following
+Explicit conversions to and from ``address`` are allowed for integers, integer literals, ``bytes32`` and contract types with the following
 caveat:
 The result of a conversion of the form ``address(x)``
 has the type ``address payable``, if ``x`` is of integer or fixed bytes type,
@@ -206,8 +206,8 @@ Operators:
     To reduce conversion ambiguity version 0.4.24 and higher of the compiler force you make the truncation explicit in the conversion.
     Take for example the 32-byte value ``0x111122223333444455556666777788889999AAAABBBBCCCCDDDDEEEEFFFFCCCC``.
 
-    You can use ``address(uint160(bytes20(b)))``, which results in ``0x111122223333444455556666777788889999aAaa``,
-    or you can use ``address(uint160(uint256(b)))``, which results in ``0x777788889999AaAAbBbbCcccddDdeeeEfFFfCcCc``.
+    You can use ``address(uint256(bytes32(b)))``, which results in ``0x111122223333444455556666777788889999aAaa``,
+    or you can use ``address(uint256(uint256(b)))``, which results in ``0x777788889999AaAAbBbbCcccddDdeeeEfFFfCcCc``.
 
 .. note::
     The distinction between ``address`` and ``address payable`` was introduced with version 0.5.0.
@@ -597,197 +597,6 @@ subsequent unsigned integer values starting from ``0``.
 Function Types
 --------------
 
-Function types are the types of functions. Variables of function type
-can be assigned from functions and function parameters of function type
-can be used to pass functions to and return functions from function calls.
-Function types come in two flavours - *internal* and *external* functions:
+.. warning::
 
-Internal functions can only be called inside the current contract (more specifically,
-inside the current code unit, which also includes internal library functions
-and inherited functions) because they cannot be executed outside of the
-context of the current contract. Calling an internal function is realized
-by jumping to its entry label, just like when calling a function of the current
-contract internally.
-
-External functions consist of an address and a function signature and they can
-be passed via and returned from external function calls.
-
-Function types are notated as follows::
-
-    function (<parameter types>) {internal|external} [pure|view|payable] [returns (<return types>)]
-
-In contrast to the parameter types, the return types cannot be empty - if the
-function type should not return anything, the whole ``returns (<return types>)``
-part has to be omitted.
-
-By default, function types are internal, so the ``internal`` keyword can be
-omitted. Note that this only applies to function types. Visibility has
-to be specified explicitly for functions defined in contracts, they
-do not have a default.
-
-Conversions:
-
-A function type ``A`` is implicitly convertible to a function type ``B`` if and only if
-their parameter types are identical, their return types are identical,
-their internal/external property is identical and the state mutability of ``A``
-is not more restrictive than the state mutability of ``B``. In particular:
-
- - ``pure`` functions can be converted to ``view`` and ``non-payable`` functions
- - ``view`` functions can be converted to ``non-payable`` functions
- - ``payable`` functions can be converted to ``non-payable`` functions
-
-No other conversions between function types are possible.
-
-The rule about ``payable`` and ``non-payable`` might be a little
-confusing, but in essence, if a function is ``payable``, this means that it
-also accepts a payment of zero Ether, so it also is ``non-payable``.
-On the other hand, a ``non-payable`` function will reject Ether sent to it,
-so ``non-payable`` functions cannot be converted to ``payable`` functions.
-
-If a function type variable is not initialised, calling it results
-in a failed assertion. The same happens if you call a function after using ``delete``
-on it.
-
-If external function types are used outside of the context of Solidity,
-they are treated as the ``function`` type, which encodes the address
-followed by the function identifier together in a single ``bytes24`` type.
-
-Note that public functions of the current contract can be used both as an
-internal and as an external function. To use ``f`` as an internal function,
-just use ``f``, if you want to use its external form, use ``this.f``.
-
-Members:
-
-External (or public) functions have the following members:
-
-* ``.address`` returns the address of the contract of the function.
-* ``.selector`` returns the :ref:`ABI function selector <abi_function_selector>`
-
-.. note::
-  External (or public) functions used to have the additional members
-  ``.gas(uint)`` and ``.value(uint)``. These were deprecated in Solidity 0.6.2
-  and removed in Solidity 0.7.0. Instead use ``{gas: ...}`` and ``{value: ...}``
-  to specify the amount of gas or the amount of wei sent to a function,
-  respectively. See :ref:`External Function Calls <external-function-calls>` for
-  more information.
-
-Example that shows how to use the members::
-
-    // SPDX-License-Identifier: GPL-3.0
-    pragma solidity >=0.6.4 <0.8.0;
-
-    contract Example {
-        function f() public payable returns (bytes4) {
-            assert(this.f.address == address(this));
-            return this.f.selector;
-        }
-
-        function g() public {
-            this.f{gas: 10, value: 800}();
-        }
-    }
-
-Example that shows how to use internal function types::
-
-    // SPDX-License-Identifier: GPL-3.0
-    pragma solidity >=0.4.16 <0.8.0;
-
-    library ArrayUtils {
-        // internal functions can be used in internal library functions because
-        // they will be part of the same code context
-        function map(uint[] memory self, function (uint) pure returns (uint) f)
-            internal
-            pure
-            returns (uint[] memory r)
-        {
-            r = new uint[](self.length);
-            for (uint i = 0; i < self.length; i++) {
-                r[i] = f(self[i]);
-            }
-        }
-
-        function reduce(
-            uint[] memory self,
-            function (uint, uint) pure returns (uint) f
-        )
-            internal
-            pure
-            returns (uint r)
-        {
-            r = self[0];
-            for (uint i = 1; i < self.length; i++) {
-                r = f(r, self[i]);
-            }
-        }
-
-        function range(uint length) internal pure returns (uint[] memory r) {
-            r = new uint[](length);
-            for (uint i = 0; i < r.length; i++) {
-                r[i] = i;
-            }
-        }
-    }
-
-
-    contract Pyramid {
-        using ArrayUtils for *;
-
-        function pyramid(uint l) public pure returns (uint) {
-            return ArrayUtils.range(l).map(square).reduce(sum);
-        }
-
-        function square(uint x) internal pure returns (uint) {
-            return x * x;
-        }
-
-        function sum(uint x, uint y) internal pure returns (uint) {
-            return x + y;
-        }
-    }
-
-Another example that uses external function types::
-
-    // SPDX-License-Identifier: GPL-3.0
-    pragma solidity >=0.4.22 <0.8.0;
-
-
-    contract Oracle {
-        struct Request {
-            bytes data;
-            function(uint) external callback;
-        }
-
-        Request[] private requests;
-        event NewRequest(uint);
-
-        function query(bytes memory data, function(uint) external callback) public {
-            requests.push(Request(data, callback));
-            emit NewRequest(requests.length - 1);
-        }
-
-        function reply(uint requestID, uint response) public {
-            // Here goes the check that the reply comes from a trusted source
-            requests[requestID].callback(response);
-        }
-    }
-
-
-    contract OracleUser {
-        Oracle constant private ORACLE_CONST = Oracle(0x1234567); // known contract
-        uint private exchangeRate;
-
-        function buySomething() public {
-            ORACLE_CONST.query("USD", this.oracleResponse);
-        }
-
-        function oracleResponse(uint response) public {
-            require(
-                msg.sender == address(ORACLE_CONST),
-                "Only oracle can call this."
-            );
-            exchangeRate = response;
-        }
-    }
-
-.. note::
-    Lambda or inline functions are planned but not yet supported.
+  Function types are not supported.

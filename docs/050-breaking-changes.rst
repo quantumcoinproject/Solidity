@@ -114,7 +114,7 @@ For most of the topics the compiler will provide suggestions.
   where only ``address payable`` provides the ``transfer`` function.  An
   ``address payable`` can be directly converted to an ``address``, but the
   other way around is not allowed. Converting ``address`` to ``address
-  payable`` is possible via conversion through ``uint160``. If ``c`` is a
+  payable`` is possible via conversion through ``uint256``. If ``c`` is a
   contract, ``address(c)`` results in ``address payable`` only if ``c`` has a
   payable fallback function. If you use the :ref:`withdraw pattern<withdrawal_pattern>`,
   you most likely do not have to change your code because ``transfer``
@@ -492,7 +492,7 @@ New version:
             // 'address(unknownContract).transfer' is not provided
             // since 'address(unknownContract)' is not 'address payable'.
             // If the function takes an 'address' which you want to send
-            // funds to, you can convert it to 'address payable' via 'uint160'.
+            // funds to, you can convert it to 'address payable' via 'uint256'.
             // Note: This is not recommended and the explicit type
             // 'address payable' should be used whenever possible.
             // To increase clarity, we suggest the use of a library for
@@ -515,6 +515,6 @@ New version:
     // to ``address payable`` as a workaround.
     library address_make_payable {
         function make_payable(address x) internal pure returns (address payable) {
-            return address(uint160(x));
+            return address(uint256(x));
         }
     }

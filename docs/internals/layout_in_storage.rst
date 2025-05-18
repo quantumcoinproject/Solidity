@@ -265,7 +265,7 @@ value and reference types, types that are encoded packed, and nested types.
         "t_address": {
           "encoding": "inplace",
           "label": "address",
-          "numberOfBytes": "20"
+          "numberOfBytes": "32"
         },
         "t_array(t_uint256)2_storage": {
           "base": "t_uint256",
