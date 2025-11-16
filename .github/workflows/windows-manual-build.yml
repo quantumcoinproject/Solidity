@@ -12,6 +12,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install boost
+        uses: MarkusJx/install-boost@v2
+        id: install-boost
+        with:
+            # REQUIRED: Specify the required boost version
+            # A list of supported versions can be found here:
+            # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
+            boost_version: 1.74.0
+            boost_install_dir: ${{ github.workspace }}\deps\boost\lib\cmake\Boost-1.74.0
+            toolset: msvc14.2   
+
+        # NOTE: If a boost version matching all requirements cannot be found,
+        # this build step will fail
+
       - name: Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
         with:
@@ -20,12 +34,6 @@ jobs:
       - name: cl.exe should be found now
         run: |
           $(Get-Command cl -ErrorAction SilentlyContinue) -or $(throw "cl.exe wasn't found!")
-
-      - name: Install Boost
-        shell: pwsh
-        run: |
-          .\scripts\install_deps.ps1 vc143
-          dir ${{ github.workspace }}\deps\boost\lib\cmake
       
       - name: Install evmone
         shell: pwsh
