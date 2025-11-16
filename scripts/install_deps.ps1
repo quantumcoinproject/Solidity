@@ -13,6 +13,7 @@ if ( -not (Test-Path "$PSScriptRoot\..\deps\boost") ) {
   Invoke-WebRequest -URI "https://archives.boost.io/release/1.74.0/source/boost_1_74_0.zip" -OutFile boost.zip
   tar -xf boost.zip
   cd boost_1_74_0
+  copy ..\scripts\boost-bootstrap.bat .\bootstrap.bat
   .\bootstrap.bat
   type .\bootstrap.log
   .\b2 -j4 -d0 link=static runtime-link=static variant=release threading=multi address-model=64 --with-filesystem --with-system --with-program_options --with-test --prefix="$PSScriptRoot\..\deps\boost" install
