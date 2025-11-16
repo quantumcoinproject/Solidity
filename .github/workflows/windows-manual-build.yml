@@ -15,7 +15,7 @@ jobs:
       - name: Install Boost
         shell: pwsh
         run: |
-          .\scripts\install_deps.ps1
+          .\scripts\install_deps.ps1 vc143
           dir ${{ github.workspace }}\deps\boost\lib\cmake
 
           #- name: Install z3

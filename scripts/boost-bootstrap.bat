@@ -1,4 +1,4 @@
-@ECHO OFF
+REM @ECHO OFF
 
 SETLOCAL
 
@@ -12,8 +12,8 @@ ECHO Building Boost.Build engine
 if exist ".\tools\build\src\engine\b2.exe" del tools\build\src\engine\b2.exe
 pushd tools\build\src\engine
 
-call .\build.bat %* > ..\..\..\..\bootstrap.log
-@ECHO OFF
+call .\build.bat msvc : 14.3 > ..\..\..\..\bootstrap.log
+REM @ECHO OFF
 
 popd
 
