@@ -21,7 +21,6 @@ jobs:
             # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
             boost_version: 1.74.0
             boost_install_dir: ${{ github.workspace }}\deps\boost\lib\cmake\Boost-1.74.0
-            toolset: msvc14.2   
 
         # NOTE: If a boost version matching all requirements cannot be found,
         # this build step will fail
