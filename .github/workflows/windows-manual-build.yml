@@ -20,7 +20,7 @@ jobs:
       - name: Install boost
         run: |
           curl https://archives.boost.io/release/1.74.0/binaries/boost_1_74_0-bin-msvc-all-32-64.7z -o boost_1_74_0-bin-msvc-all-32-64.7z
-          tar -xzvf boost_1_74_0-bin-msvc-all-32-64.7z ${{ github.workspace }}\
+          tar -xzvf boost_1_74_0-bin-msvc-all-32-64.7z -c ${{ github.workspace }}\
 
 
         # NOTE: If a boost version matching all requirements cannot be found,
