@@ -7,43 +7,45 @@ on:
 jobs:
   windows-build:
 
-    runs-on: windows-2022
+    runs-on: windows-latest
     
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Boost
-        shell: pwsh
+      - name: Install boost
         run: |
-          .\scripts\install_deps.ps1
-          dir ${{ github.workspace }}\deps\boost\lib\cmake
+          cd ${{ github.workspace }}
+          curl https://archives.boost.io/release/1.74.0/binaries/boost_1_74_0-bin-msvc-all-32-64.7z -o boost_1_74_0-bin-msvc-all-32-64.7z
+          tar -xzvf boost_1_74_0-bin-msvc-all-32-64.7z
+          ls ${{ github.workspace }}
 
-          #- name: Install z3
-          #shell: pwsh
-          #run: |
-          #.\scripts\install_z3.ps1
+        # NOTE: If a boost version matching all requirements cannot be found,
+        # this build step will fail
+
+      - name: Set up Visual Studio shell
+        uses: egor-tensin/vs-shell@v2
+        with:
+            arch: x64
+
+      - name: cl.exe should be found now
+        run: |
+          $(Get-Command cl -ErrorAction SilentlyContinue) -or $(throw "cl.exe wasn't found!")
       
       - name: Install evmone
-        shell: pwsh
         run: |
-          .\scripts\install_evmone.ps1
+          powershell .\scripts\install_evmone.ps1
           
-
       - name: Configure Solidity
         run: |
           mkdir ${{ github.workspace }}\build
-          dir ${{ github.workspace }}\deps\boost\lib\cmake\Boost-1.74.0
-          cmake -G "Visual Studio 16 2019" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}\build\windows-release -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DUSE_Z3=OFF -DUSE_CVC4=OFF -DBoost_DIR=${{ github.workspace }}\deps\boost\lib\cmake\Boost-1.74.0 .
-          #cmake -G "Visual Studio 17 2022" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DZ3_DIR="${{ github.workspace }}\build\deps\z3\lib\cmake\z3" -DBoost_DIR="${{ github.workspace }}\build\deps\boost\lib\cmake\Boost-1.78.0" ..
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_INSTALL_PREFIX=c:\github\Solidity\build -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DUSE_Z3=OFF -DUSE_CVC4=OFF -DBoost_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_INCLUDE_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_LIBRARY_DIRS=${{ github.workspace }}\boost_1_74_0\l\libs .
 
       - name: Build Solidity
         run: |
-          #cd ${{ github.workspace }}\build
           cmake --build . --config Release -j 12
 
       - name: Install Solidity
         run: |
-          #cd ${{ github.workspace }}\build
           cmake --install . 
 
       - name: Upload Artifact 
