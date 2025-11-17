@@ -39,7 +39,7 @@ jobs:
       - name: Configure Solidity
         run: |
           mkdir ${{ github.workspace }}\build
-          copy NUL prerelease.txt
+          powershell New-Item prerelease.txt -type file
           cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=c:\github\Solidity\build -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DUSE_Z3=OFF -DUSE_CVC4=OFF -DBoost_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_INCLUDE_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_LIBRARY_DIRS=${{ github.workspace }}\boost_1_74_0\l\libs .
 
       - name: Build Solidity
