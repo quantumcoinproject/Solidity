@@ -55,4 +55,9 @@ jobs:
         with:
           name: release-windows
           path: ${{ github.workspace }}\solc
-
+          
+      - name: release 
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "solc/release/solc.exe"
