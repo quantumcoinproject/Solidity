@@ -34,6 +34,8 @@ number [to indicate this fast pace of change](https://semver.org/#spec-item-4).
 Instructions about how to build and install the Solidity compiler can be
 found in the [Solidity documentation](https://docs.soliditylang.org/en/latest/installing-solidity.html#building-from-source).
 
+To create a release build, create an empty file named prerelease.txt in the folder
+
 
 ## Example
 
