@@ -14,8 +14,10 @@ jobs:
 
       - name: Install cmake
         run: |
-          curl https://github.com/Kitware/CMake/releases/download/v4.2.0-rc3/cmake-4.2.0-rc3-windows-x86_64.zip -o cmake-4.2.0-rc3-windows-x86_64.zip  
+          cd ${{ github.workspace }}
+          powershell Invoke-WebRequest -Uri "https://github.com/Kitware/CMake/releases/download/v4.2.0-rc3/cmake-4.2.0-rc3-windows-x86_64.zip" -OutFile cmake-4.2.0-rc3-windows-x86_64.zip  
           powershell Expand-Archive -Path cmake-4.2.0-rc3-windows-x86_64.zip -DestinationPath ${{ github.workspace }}\
+          ${{ github.workspace }}\cmake-3.18.2-win64-x64\bin\cmake
 
       - name: Install boost
         run: |
