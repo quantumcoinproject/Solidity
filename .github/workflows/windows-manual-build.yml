@@ -47,11 +47,9 @@ jobs:
           .\scripts\install_evmone.ps1
           
       - name: Configure Solidity
-        env:
-            BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}  
         run: |
           mkdir ${{ github.workspace }}\build
-          ${{ github.workspace }}\cmake-4.2.0-rc3-windows-x86_64\bin\cmake -G "Visual Studio 18 2026" -A Win32 -DCMAKE_INSTALL_PREFIX=c:\github\Solidity\build -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DUSE_Z3=OFF -DUSE_CVC4=OFF -DBoost_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_INCLUDE_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_LIBRARY_DIRS=${{ github.workspace }}\boost_1_74_0\l\libs .
+          ${{ github.workspace }}\cmake-4.2.0-rc3-windows-x86_64\bin\cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_INSTALL_PREFIX=c:\github\Solidity\build -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DUSE_Z3=OFF -DUSE_CVC4=OFF -DBoost_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_INCLUDE_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_LIBRARY_DIRS=${{ github.workspace }}\boost_1_74_0\l\libs .
 
       - name: Build Solidity
         run: |
