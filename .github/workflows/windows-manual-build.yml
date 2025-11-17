@@ -12,16 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install cmake
-        run: |
-          cd ${{ github.workspace }}
-          powershell Invoke-WebRequest -Uri "https://github.com/Kitware/CMake/releases/download/v4.2.0-rc3/cmake-4.2.0-rc3-windows-x86_64.zip" -OutFile cmake-4.2.0-rc3-windows-x86_64.zip  
-          powershell Expand-Archive -Path cmake-4.2.0-rc3-windows-x86_64.zip -DestinationPath ${{ github.workspace }}\
-          ls ${{ github.workspace }}\
-          ls ${{ github.workspace }}\cmake-4.2.0-rc3-windows-x86_64
-          ls ${{ github.workspace }}\cmake-4.2.0-rc3-windows-x86_64\bin\cmake.exe
-          ${{ github.workspace }}\cmake-4.2.0-rc3-windows-x86_64\bin\cmake.exe
-
       - name: Install boost
         run: |
           cd ${{ github.workspace }}
@@ -42,14 +32,13 @@ jobs:
           $(Get-Command cl -ErrorAction SilentlyContinue) -or $(throw "cl.exe wasn't found!")
       
       - name: Install evmone
-        shell: pwsh
         run: |
-          .\scripts\install_evmone.ps1
+          powershell .\scripts\install_evmone.ps1
           
       - name: Configure Solidity
         run: |
           mkdir ${{ github.workspace }}\build
-          ${{ github.workspace }}\cmake-4.2.0-rc3-windows-x86_64\bin\cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_INSTALL_PREFIX=c:\github\Solidity\build -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DUSE_Z3=OFF -DUSE_CVC4=OFF -DBoost_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_INCLUDE_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_LIBRARY_DIRS=${{ github.workspace }}\boost_1_74_0\l\libs .
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_INSTALL_PREFIX=c:\github\Solidity\build -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DUSE_Z3=OFF -DUSE_CVC4=OFF -DBoost_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_INCLUDE_DIR=${{ github.workspace }}\boost_1_74_0 -DBoost_LIBRARY_DIRS=${{ github.workspace }}\boost_1_74_0\l\libs .
 
       - name: Build Solidity
         run: |
