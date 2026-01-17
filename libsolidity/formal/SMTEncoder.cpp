@@ -689,7 +689,6 @@ void SMTEncoder::endVisit(FunctionCall const& _funCall)
 	case FunctionType::Kind::Creation:
 		break;
 	case FunctionType::Kind::KECCAK256:
-	case FunctionType::Kind::ECRecover:
 	case FunctionType::Kind::SHA256:
 	case FunctionType::Kind::RIPEMD160:
 		visitCryptoFunction(_funCall);
@@ -803,20 +802,6 @@ void SMTEncoder::visitCryptoFunction(FunctionCall const& _funCall)
 		result = smtutil::Expression::select(m_context.state().cryptoFunction("sha256"), arg0);
 	else if (kind == FunctionType::Kind::RIPEMD160)
 		result = smtutil::Expression::select(m_context.state().cryptoFunction("ripemd160"), arg0);
-	else if (kind == FunctionType::Kind::ECRecover)
-	{
-		auto e = m_context.state().cryptoFunction("ecrecover");
-		auto arg0 = expr(*_funCall.arguments().at(0));
-		auto arg1 = expr(*_funCall.arguments().at(1));
-		auto arg2 = expr(*_funCall.arguments().at(2));
-		auto arg3 = expr(*_funCall.arguments().at(3));
-		auto inputSort = dynamic_cast<smtutil::ArraySort&>(*e.sort).domain;
-		auto ecrecoverInput = smtutil::Expression::tuple_constructor(
-			smtutil::Expression(make_shared<smtutil::SortSort>(inputSort), ""),
-			{arg0, arg1, arg2, arg3}
-		);
-		result = smtutil::Expression::select(e, ecrecoverInput);
-	}
 	else
 		solAssert(false, "");
 

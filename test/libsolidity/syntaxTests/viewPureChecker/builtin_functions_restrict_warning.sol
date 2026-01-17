@@ -17,5 +17,5 @@ contract C {
     }
 }
 // ----
-// Warning 2018: (17-288): Function state mutability can be restricted to pure
-// Warning 2018: (293-559): Function state mutability can be restricted to pure
+// TypeError 9999: (134-143): "ecrecover" has been removed. This function is not available.
+// TypeError 9999: (310-319): "ecrecover" has been removed. This function is not available.
