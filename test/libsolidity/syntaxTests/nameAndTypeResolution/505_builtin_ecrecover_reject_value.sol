@@ -4,4 +4,4 @@ contract C {
     }
 }
 // ----
-// TypeError 9999: (47-56): "ecrecover" has been removed. This function is not available.
+// TypeError 8820: (47-62): Member "value" is only available for payable functions.

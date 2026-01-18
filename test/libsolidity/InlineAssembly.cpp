@@ -275,7 +275,6 @@ BOOST_AUTO_TEST_CASE(magic_variables)
 {
 	CHECK_ASSEMBLE_ERROR("{ pop(this) }", DeclarationError, "Identifier not found");
 	CHECK_ASSEMBLE_ERROR("{ pop(ecrecover) }", DeclarationError, "Identifier not found");
-	// ecrecover can still be used as a variable name in inline assembly
 	BOOST_CHECK(successAssemble("{ let ecrecover := 1 pop(ecrecover) }"));
 }
 

@@ -3116,17 +3116,6 @@ bool TypeChecker::visit(Identifier const& _identifier)
 {
 	IdentifierAnnotation& annotation = _identifier.annotation();
 
-	// Check for removed ecrecover function
-	if (_identifier.name() == "ecrecover")
-	{
-		m_errorReporter.fatalTypeError(
-			9999_error,
-			_identifier.location(),
-			"\"ecrecover\" has been removed. This function is not available."
-		);
-		return false;
-	}
-
 	if (!annotation.referencedDeclaration)
 	{
 		annotation.overloadedDeclarations = cleanOverloadedDeclarations(_identifier, annotation.candidateDeclarations);

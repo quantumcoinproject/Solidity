@@ -11,5 +11,7 @@ contract C {
         );
     }
 }
+// ====
+// compileViaYul: also
 // ----
-// TypeError 9999: (100-109): "ecrecover" has been removed. This function is not available.
+// f() -> 0

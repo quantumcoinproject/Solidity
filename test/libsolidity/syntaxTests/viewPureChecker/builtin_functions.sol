@@ -11,7 +11,6 @@ contract C {
     function g() pure public {
         bytes32 x = keccak256("abc");
         bytes32 y = sha256("abc");
-        // ecrecover removed - compilation should fail
         address z = ecrecover(bytes32(uint256(1)), uint8(2), bytes32(uint256(3)), bytes32(uint256(4)));
         require(true);
         assert(true);
@@ -19,5 +18,3 @@ contract C {
     }
     receive() payable external {}
 }
-// ----
-// TypeError 9999: (214-223): "ecrecover" has been removed. This function is not available.

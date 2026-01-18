@@ -36,6 +36,3 @@ contract C {
 		assert(_erc == erc);
 	}
 }
-// ----
-// TypeError 9999: (200-209): "ecrecover" has been removed. This function is not available.
-// TypeError 9999: (332-341): "ecrecover" has been removed. This function is not available.
