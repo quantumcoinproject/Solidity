@@ -7,3 +7,6 @@ contract C {
     function(bytes memory) external public c3;
 }
 // ----
+// TypeError 4666: (137-171): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (177-217): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (226-264): External function types are not supported with 32-byte addresses.

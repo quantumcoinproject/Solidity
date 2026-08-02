@@ -21,3 +21,4 @@ contract Test {
     }
 }
 // ----
+// TypeError 4666: (B:123-159): External function types are not supported with 32-byte addresses.

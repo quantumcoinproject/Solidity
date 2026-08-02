@@ -26,3 +26,6 @@ contract C {
 		assert(a0 == a1);
 	}
 }
+// ----
+// TypeError 9999: (168-177): "ecrecover" has been removed. This function is not available.
+// TypeError 9999: (178-187): "ecrecover" has been removed. This function is not available.

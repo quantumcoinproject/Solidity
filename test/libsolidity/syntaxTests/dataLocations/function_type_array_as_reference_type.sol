@@ -6,3 +6,6 @@ contract C {
     function d(function(Nested memory) external returns (uint)[] calldata) external pure {}
 }
 // ----
+// TypeError 4666: (134-182): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (225-273): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (313-361): External function types are not supported with 32-byte addresses.

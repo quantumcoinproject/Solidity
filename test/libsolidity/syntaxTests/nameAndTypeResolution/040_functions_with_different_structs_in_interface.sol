@@ -7,3 +7,4 @@ contract C {
     function f(S2 memory) public pure {}
 }
 // ----
+// TypeError 4666: (64-85): External function types are not supported with 32-byte addresses.

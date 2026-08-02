@@ -7,4 +7,5 @@ contract C {
     }
 }
 // ----
+// TypeError 4666: (105-132): External function types are not supported with 32-byte addresses.
 // TypeError 9574: (105-141): Type function () external is not implicitly convertible to expected type function () pure external.

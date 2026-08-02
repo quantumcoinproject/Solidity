@@ -17,5 +17,5 @@ contract C {
     }
 }
 // ----
-// Warning 2018: (17-288): Function state mutability can be restricted to pure
-// Warning 2018: (293-559): Function state mutability can be restricted to pure
+// DeclarationError 7576: (137-146): Undeclared identifier.
+// DeclarationError 7576: (408-417): Undeclared identifier.

@@ -7,4 +7,4 @@ contract C {
     }
 }
 // ----
-// Warning 6321: (51-57): Unnamed return variable can remain unassigned. Add an explicit return with value to all non-reverting code paths or name the variable.
+// TypeError 4666: (69-90): External function types are not supported with 32-byte addresses.

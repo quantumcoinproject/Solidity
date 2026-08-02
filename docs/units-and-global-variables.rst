@@ -184,32 +184,16 @@ Mathematical and Cryptographic Functions
 ``ripemd160(bytes memory) returns (bytes20)``
     compute RIPEMD-160 hash of the input
 
-``ecrecover(bytes32 hash, uint8 v, bytes32 r, bytes32 s) returns (address)``
-    recover the address associated with the public key from elliptic curve signature or return zero on error.
-    The function parameters correspond to ECDSA values of the signature:
-
-    * ``r`` = first 32 bytes of signature
-    * ``s`` = second 32 bytes of signature
-    * ``v`` = final 1 byte of signature
-
-    ``ecrecover`` returns an ``address``, and not an ``address payable``. See :ref:`address payable<address>` for
-    conversion, in case you need to transfer funds to the recovered address.
-
-    For further details, read `example usage <https://ethereum.stackexchange.com/questions/1777/workflow-on-signing-a-string-with-private-key-followed-by-signature-verificatio>`_.
-
 .. warning::
 
-    If you use ``ecrecover``, be aware that a valid signature can be turned into a different valid signature without
-    requiring knowledge of the corresponding private key. In the Homestead hard fork, this issue was fixed
-    for _transaction_ signatures (see `EIP-2 <https://eips.ethereum.org/EIPS/eip-2#specification>`_), but
-    the ecrecover function remained unchanged.
-
-    This is usually not a problem unless you require signatures to be unique or
-    use them to identify items. OpenZeppelin have a `ECDSA helper library <https://docs.openzeppelin.com/contracts/2.x/api/cryptography#ECDSA>`_ that you can use as a wrapper for ``ecrecover`` without this issue.
+    ``ecrecover`` is not available. Quantum Coin uses post-quantum signatures
+    instead of ECDSA, and the ``ecrecover`` precompiled contract was removed
+    from the node; the compiler rejects any use of ``ecrecover`` at compile
+    time.
 
 .. note::
 
-    When running ``sha256``, ``ripemd160`` or ``ecrecover`` on a *private blockchain*, you might encounter Out-of-Gas. This is because these functions are implemented as "precompiled contracts" and only really exist after they receive the first message (although their contract code is hardcoded). Messages to non-existing contracts are more expensive and thus the execution might run into an Out-of-Gas error. A workaround for this problem is to first send Wei (1 for example) to each of the contracts before you use them in your actual contracts. This is not an issue on the main or test net.
+    When running ``sha256`` or ``ripemd160`` on a *private blockchain*, you might encounter Out-of-Gas. This is because these functions are implemented as "precompiled contracts" and only really exist after they receive the first message (although their contract code is hardcoded). Messages to non-existing contracts are more expensive and thus the execution might run into an Out-of-Gas error. A workaround for this problem is to first send Wei (1 for example) to each of the contracts before you use them in your actual contracts. This is not an issue on the main or test net.
 
 .. index:: balance, send, transfer, call, callcode, delegatecall, staticcall
 

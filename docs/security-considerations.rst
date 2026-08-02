@@ -544,7 +544,7 @@ the arguments.
 |                                   |state knowledge.                      |
 +-----------------------------------+--------------------------------------+
 |``gasleft``, ``blockhash``,        |Abstracted with UF                    |
-|``keccak256``, ``ecrecover``       |                                      |
+|``keccak256``,                     |                                      |
 |``ripemd160``, ``addmod``,         |                                      |
 |``mulmod``                         |                                      |
 +-----------------------------------+--------------------------------------+
@@ -568,26 +568,22 @@ not mean loss of proving power.
     pragma experimental SMTChecker;
     // This may report a warning if no SMT solver available.
 
-    contract Recover
+    contract Hashing
     {
         function f(
-            bytes32 hash,
-            uint8 _v1, uint8 _v2,
-            bytes32 _r1, bytes32 _r2,
-            bytes32 _s1, bytes32 _s2
-        ) public pure returns (address) {
-            address a1 = ecrecover(hash, _v1, _r1, _s1);
-            require(_v1 == _v2);
-            require(_r1 == _r2);
-            require(_s1 == _s2);
-            address a2 = ecrecover(hash, _v2, _r2, _s2);
-            assert(a1 == a2);
-            return a1;
+            bytes memory _d1,
+            bytes memory _d2
+        ) public pure returns (bytes32) {
+            bytes32 h1 = keccak256(_d1);
+            require(keccak256(_d1) == keccak256(_d2));
+            bytes32 h2 = keccak256(_d2);
+            assert(h1 == h2);
+            return h1;
         }
     }
 
 In the example above, the SMTChecker is not expressive enough to actually
-compute ``ecrecover``, but by modelling the function calls as uninterpreted
+compute ``keccak256``, but by modelling the function calls as uninterpreted
 functions we know that the return value is the same when called on equivalent
 parameters. This is enough to prove that the assertion above is always true.
 

@@ -4,4 +4,4 @@ contract C {
     }
 }
 // ----
-// TypeError 8820: (47-62): Member "value" is only available for payable functions.
+// DeclarationError 7576: (47-56): Undeclared identifier.

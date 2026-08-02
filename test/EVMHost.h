@@ -87,14 +87,10 @@ public:
 private:
 	evmc::address m_currentAddress = {};
 
-	static evmc::result precompileECRecover(evmc_message const& _message) noexcept;
 	static evmc::result precompileSha256(evmc_message const& _message) noexcept;
 	static evmc::result precompileRipeMD160(evmc_message const& _message) noexcept;
 	static evmc::result precompileIdentity(evmc_message const& _message) noexcept;
 	static evmc::result precompileModExp(evmc_message const& _message) noexcept;
-	static evmc::result precompileALTBN128G1Add(evmc_message const& _message) noexcept;
-	static evmc::result precompileALTBN128G1Mul(evmc_message const& _message) noexcept;
-	static evmc::result precompileALTBN128PairingProduct(evmc_message const& _message) noexcept;
 	static evmc::result precompileGeneric(evmc_message const& _message, std::map<bytes, bytes> const& _inOut) noexcept;
 	/// @returns a result object with no gas usage and result data taken from @a _data.
 	/// @note The return value is only valid as long as @a _data is alive!

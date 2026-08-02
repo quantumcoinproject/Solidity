@@ -3562,7 +3562,6 @@ bool FunctionType::isBareCall() const
 	case Kind::BareCallCode:
 	case Kind::BareDelegateCall:
 	case Kind::BareStaticCall:
-	case Kind::ECRecover:
 	case Kind::SHA256:
 	case Kind::RIPEMD160:
 		return true;
@@ -3624,7 +3623,6 @@ bool FunctionType::isPure() const
 	//       the callgraph analyzer is in place
 	return
 		m_kind == Kind::KECCAK256 ||
-		m_kind == Kind::ECRecover ||
 		m_kind == Kind::SHA256 ||
 		m_kind == Kind::RIPEMD160 ||
 		m_kind == Kind::AddMod ||

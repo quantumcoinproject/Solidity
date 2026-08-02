@@ -3,4 +3,5 @@ contract test {
     function(bytes memory) external internal a = fa;
 }
 // ----
+// TypeError 4666: (61-101): External function types are not supported with 32-byte addresses.
 // TypeError 7407: (106-108): Type function (bytes memory) is not implicitly convertible to expected type function (bytes memory) external. Special functions can not be converted to function types.
