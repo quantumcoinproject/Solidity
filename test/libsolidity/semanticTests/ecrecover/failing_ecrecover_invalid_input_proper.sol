@@ -16,7 +16,5 @@ contract C {
         return ecrecover(hash, v, r, s);
     }
 }
-// ====
-// compileViaYul: also
 // ----
-// f() -> 0
+// TypeError 9999: (316-325): "ecrecover" has been removed. This function is not available.

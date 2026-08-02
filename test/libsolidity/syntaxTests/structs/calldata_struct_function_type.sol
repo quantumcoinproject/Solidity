@@ -6,3 +6,4 @@ contract C {
     }
 }
 // ----
+// TypeError 4666: (62-104): External function types are not supported with 32-byte addresses.

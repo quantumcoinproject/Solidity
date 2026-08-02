@@ -8,3 +8,5 @@ contract C {
         f(this.callback);
     }
 }
+// ----
+// TypeError 4666: (213-256): External function types are not supported with 32-byte addresses.

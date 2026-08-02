@@ -18,3 +18,5 @@ contract test {
     function(uint) pure internal h = fh;
 }
 // ----
+// TypeError 4666: (461-486): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (502-534): External function types are not supported with 32-byte addresses.

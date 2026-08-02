@@ -19,4 +19,5 @@ contract Test {
     }
 }
 // ----
+// TypeError 4666: (B:88-124): External function types are not supported with 32-byte addresses.
 // TypeError 2443: (B:146-155): The type of this parameter, struct C.Item, is only supported in ABI coder v2. Use "pragma abicoder v2;" to enable the feature.

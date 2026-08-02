@@ -20,3 +20,9 @@ contract C {
         nonpayFun();
     }
 }
+// ----
+// TypeError 4666: (52-82): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (92-125): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (135-168): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (288-321): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (383-413): External function types are not supported with 32-byte addresses.

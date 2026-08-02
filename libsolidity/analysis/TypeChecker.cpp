@@ -714,6 +714,15 @@ void TypeChecker::endVisit(FunctionTypeName const& _funType)
 	FunctionType const& fun = dynamic_cast<FunctionType const&>(*_funType.annotation().type);
 	if (fun.kind() == FunctionType::Kind::External)
 	{
+		// External function values embed the target address. With 32-byte
+		// addresses the packed representation (address + selector = 36 bytes)
+		// no longer fits a single word and would silently truncate the
+		// address, so external function types are not supported.
+		m_errorReporter.typeError(
+			4666_error,
+			_funType.location(),
+			"External function types are not supported with 32-byte addresses."
+		);
 		for (auto const& t: _funType.parameterTypes() + _funType.returnParameterTypes())
 		{
 			solAssert(t->annotation().type, "Type not set for parameter.");
@@ -3115,6 +3124,17 @@ vector<Declaration const*> TypeChecker::cleanOverloadedDeclarations(
 bool TypeChecker::visit(Identifier const& _identifier)
 {
 	IdentifierAnnotation& annotation = _identifier.annotation();
+
+	// Check for removed ecrecover function
+	if (_identifier.name() == "ecrecover")
+	{
+		m_errorReporter.fatalTypeError(
+			9999_error,
+			_identifier.location(),
+			"\"ecrecover\" has been removed. This function is not available."
+		);
+		return false;
+	}
 
 	if (!annotation.referencedDeclaration)
 	{

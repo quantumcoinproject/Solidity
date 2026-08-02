@@ -38,6 +38,10 @@ contract Test
   }
 }
 // ----
+// TypeError 4666: (1034-1084): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (1163-1213): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (1295-1348): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (1430-1475): External function types are not supported with 32-byte addresses.
 // TypeError 9553: (1580-1596): Invalid type for argument in function call. Invalid implicit conversion from function (uint256) view returns (uint256) to function (uint256) pure returns (uint256) requested.
 // TypeError 9553: (1653-1672): Invalid type for argument in function call. Invalid implicit conversion from function (uint256) returns (uint256) to function (uint256) pure returns (uint256) requested.
 // TypeError 9553: (1733-1752): Invalid type for argument in function call. Invalid implicit conversion from function (uint256) returns (uint256) to function (uint256) view returns (uint256) requested.

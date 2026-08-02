@@ -201,13 +201,13 @@ Operators:
 
 * ``<=``, ``<``, ``==``, ``!=``, ``>=`` and ``>``
 
-.. warning::
-    If you convert a type that uses a larger byte size to an ``address``, for example ``bytes32``, then the ``address`` is truncated.
-    To reduce conversion ambiguity version 0.4.24 and higher of the compiler force you make the truncation explicit in the conversion.
-    Take for example the 32-byte value ``0x111122223333444455556666777788889999AAAABBBBCCCCDDDDEEEEFFFFCCCC``.
-
-    You can use ``address(uint256(bytes32(b)))``, which results in ``0x111122223333444455556666777788889999aAaa``,
-    or you can use ``address(uint256(uint256(b)))``, which results in ``0x777788889999AaAAbBbbCcccddDdeeeEfFFfCcCc``.
+.. note::
+    On Quantum Coin an ``address`` is 32 bytes and occupies a full word, so
+    ``address``, ``uint256`` and ``bytes32`` all have the same size.
+    Conversions between them (``address(uint256(b))``, ``address(uint160(...))``
+    excepted) are lossless. Converting from ``uint160`` or other smaller
+    integer types only fills the low-order bytes of the address and is almost
+    never what you want.
 
 .. note::
     The distinction between ``address`` and ``address payable`` was introduced with version 0.5.0.

@@ -110,7 +110,9 @@ int registerTests(
 					   "transfer.sol",
 					   "bubble.sol",
 					   "send_zero_ether.sol",
-					   "creation_function_call_with_salt.sol"
+					   "creation_function_call_with_salt.sol",
+					   // bn256 precompiles (0x06-0x08) are removed from the Quantum Coin node.
+					   "snark.sol"
 				};
 
 				if (std::find(testsToSkip.begin(), testsToSkip.end(), entry.path().filename()) != testsToSkip.end())

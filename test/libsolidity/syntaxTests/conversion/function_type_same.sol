@@ -12,3 +12,7 @@ contract C {
     }
 }
 // ----
+// TypeError 4666: (249-282): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (326-364): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (402-434): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (466-498): External function types are not supported with 32-byte addresses.

@@ -13,6 +13,6 @@ contract C {
     }
 }
 // ----
-// TypeError 8961: (92-103): Function declared as pure, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
-// TypeError 2527: (193-202): Function declared as pure, but this expression (potentially) reads from the environment or state and thus requires "view".
-// TypeError 8961: (289-300): Function declared as view, but this expression (potentially) modifies the state and thus requires non-payable (the default) or payable.
+// TypeError 4666: (52-82): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (150-183): External function types are not supported with 32-byte addresses.
+// TypeError 4666: (249-279): External function types are not supported with 32-byte addresses.

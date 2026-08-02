@@ -5,4 +5,5 @@ contract C {
     }
 }
 // ----
+// TypeError 4666: (17-66): External function types are not supported with 32-byte addresses.
 // TypeError 1621: (102-109): Using ".value(...)" is deprecated. Use "{value: ...}" instead.

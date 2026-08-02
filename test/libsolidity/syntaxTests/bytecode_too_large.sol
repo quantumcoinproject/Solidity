@@ -7,4 +7,4 @@ contract test {
 // ====
 // EVMVersion: >=spuriousDragon
 // ----
-// Warning 5574: (0-27133): Contract code size exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries.
+// Warning 5574: (0-27133): Contract code size is 27262 bytes and exceeds 24576 bytes (a limit introduced in Spurious Dragon). This contract may not be deployable on Mainnet. Consider enabling the optimizer (with a low "runs" value!), turning off revert strings, or using libraries. Use --optimize or --optimize-runs for solc

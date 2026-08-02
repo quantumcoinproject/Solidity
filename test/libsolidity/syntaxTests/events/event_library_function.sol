@@ -30,6 +30,9 @@ contract E {
 	}
 }
 // ----
+// TypeError 4666: (79-106): External function types are not supported with 32-byte addresses.
 // TypeError 9553: (140-143): Invalid type for argument in function call. Invalid implicit conversion from function () to function () external requested. Special functions can not be converted to function types.
+// TypeError 4666: (177-197): External function types are not supported with 32-byte addresses.
 // TypeError 9553: (230-233): Invalid type for argument in function call. Invalid implicit conversion from function () to function () external requested. Special functions can not be converted to function types.
+// TypeError 4666: (267-294): External function types are not supported with 32-byte addresses.
 // TypeError 9553: (345-348): Invalid type for argument in function call. Invalid implicit conversion from function D.f() to function () external requested. Special functions can not be converted to function types.

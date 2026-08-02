@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(metadata_stamp)
 		pragma solidity >=0.0;
 		pragma experimental __testOnlyAnalysis;
 		contract test {
-			function g(function(uint) external returns (uint) x) public {}
+			function g(uint x) public {}
 		}
 	)";
 	for (auto release: std::set<bool>{true, VersionIsRelease})
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(metadata_stamp_experimental)
 		pragma solidity >=0.0;
 		pragma experimental __test;
 		contract test {
-			function g(function(uint) external returns (uint) x) public {}
+			function g(uint x) public {}
 		}
 	)";
 	for (auto release: set<bool>{true, VersionIsRelease})
@@ -178,13 +178,13 @@ BOOST_AUTO_TEST_CASE(metadata_relevant_sources)
 	char const* sourceCodeA = R"(
 		pragma solidity >=0.0;
 		contract A {
-			function g(function(uint) external returns (uint) x) public {}
+			function g(uint x) public {}
 		}
 	)";
 	char const* sourceCodeB = R"(
 		pragma solidity >=0.0;
 		contract B {
-			function g(function(uint) external returns (uint) x) public {}
+			function g(uint x) public {}
 		}
 	)";
 	compilerStack.setSources({
@@ -210,21 +210,21 @@ BOOST_AUTO_TEST_CASE(metadata_relevant_sources_imports)
 	char const* sourceCodeA = R"(
 		pragma solidity >=0.0;
 		contract A {
-			function g(function(uint) external returns (uint) x) public virtual {}
+			function g(uint x) public virtual {}
 		}
 	)";
 	char const* sourceCodeB = R"(
 		pragma solidity >=0.0;
 		import "./A";
 		contract B is A {
-			function g(function(uint) external returns (uint) x) public virtual override {}
+			function g(uint x) public virtual override {}
 		}
 	)";
 	char const* sourceCodeC = R"(
 		pragma solidity >=0.0;
 		import "./B";
 		contract C is B {
-			function g(function(uint) external returns (uint) x) public override {}
+			function g(uint x) public override {}
 		}
 	)";
 	compilerStack.setSources({

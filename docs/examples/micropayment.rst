@@ -108,6 +108,12 @@ Here is a JavaScript function that creates the proper signature for the ``Receiv
 Recovering the Message Signer in Solidity
 -----------------------------------------
 
+.. warning::
+
+    This example is retained from upstream Solidity for illustration only.
+    It does not compile on Quantum Coin: ``ecrecover`` was removed because
+    the chain uses post-quantum signatures instead of ECDSA.
+
 In general, ECDSA signatures consist of two parameters,
 ``r`` and ``s``. Signatures in Ethereum include a third
 parameter called ``v``, that you can use to verify which
