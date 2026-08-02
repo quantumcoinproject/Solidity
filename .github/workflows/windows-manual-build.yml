@@ -7,7 +7,12 @@ on:
 jobs:
   windows-build:
 
-    runs-on: windows-latest
+    # Pinned to windows-2022: since June 2026, windows-latest (windows-2025)
+    # ships Visual Studio 2026 only, so the "Visual Studio 17 2022" generator
+    # below finds no VS instance there. If GitHub retires the windows-2022
+    # image, move to windows-latest AND change the generator to
+    # "Visual Studio 18 2026" (this codebase is known to build with VS 2026).
+    runs-on: windows-2022
     
     steps:
       - uses: actions/checkout@v4
@@ -16,7 +21,9 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           curl https://archives.boost.io/release/1.74.0/binaries/boost_1_74_0-bin-msvc-all-32-64.7z -o boost_1_74_0-bin-msvc-all-32-64.7z
-          tar -xzvf boost_1_74_0-bin-msvc-all-32-64.7z
+          # Use 7-Zip (preinstalled on GitHub Windows runners): the image's
+          # tar.exe cannot decompress 7z archives (LZMA codec is unsupported).
+          7z x boost_1_74_0-bin-msvc-all-32-64.7z -y -bso0 -bsp0
           ls ${{ github.workspace }}
 
         # NOTE: If a boost version matching all requirements cannot be found,
