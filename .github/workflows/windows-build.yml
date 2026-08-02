@@ -22,7 +22,9 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           curl https://archives.boost.io/release/1.74.0/binaries/boost_1_74_0-bin-msvc-all-32-64.7z -o boost_1_74_0-bin-msvc-all-32-64.7z
-          tar -xzvf boost_1_74_0-bin-msvc-all-32-64.7z
+          # Use 7-Zip (preinstalled on GitHub Windows runners): the image's
+          # tar.exe cannot decompress 7z archives (LZMA codec is unsupported).
+          7z x boost_1_74_0-bin-msvc-all-32-64.7z -y -bso0 -bsp0
           ls ${{ github.workspace }}
 
         # NOTE: If a boost version matching all requirements cannot be found,
